@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sicky notes</title>
+<link type="text/css" rel="stylesheet" href="css/index.css"/>
+<link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
+<script type="text/javascript" src="js/jquery/jquery-3.1.1.min.js"></script>
+<!-- use draggable functtion from this library -->
+ <script type="text/javascript" src="js/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript">
+var stickynote;
+var stickyarray;
+var countid=0;
+$(document).ready(function(){
+debugger
+ stickynote=$("#stickynotes");
+ <!-- add note if one is available -->
+ loadstickynote();
+if(stickyarray==undefined || stickyarray.length<=0){
+ addnewstickynote();
+ }
+ $(".stickydraggable").draggable();
+});
+<!-- This function adds new notes into(id="stickynotes )list*/ -->
+function addnewstickynote(stickyTitle,stickyContent)
+{
+debugger
+countid=countid+1;
+stickynote.append("<li class='stickydraggable'>"+
+"<div class='inputscontainer stickycolour'>"+
+"<img src='image/closenote.png' style='float:right;cursor:default'/>" +
+"<input type='text' id='stickytitleid"+countid+"' class='note-stickytitle inputcommon' placeholder='Title' maxlength='20'/>"+
+"<textarea id='stickycontentid"+countid+"' class='note-stickycontent inputcommon' placeholder='Write your content here' />"+
+ "<a><i class='fa fa-pencil' aria-hidden='true' style='float:right' id='"+countid+"' class='commonmargin' onclick='editsticky(this)'></i></a>"+
+"</div>"+
+"</li>"
+);
+<!-- find the new note that's just been added and bind the event(onclick) to its close button-->
+var newstickynote=stickynote.find("li:last");
+newstickynote.find("img").click(function(){
+newstickynote.remove();
+savestickynote("remove");
+});
+if (stickyTitle) {
+		 <!-- get the title textarea element and set its value -->
+		newstickynote.find("input.note-stickytitle").val(stickyTitle);
+    }
+
+	<!-- if a content is provided then set the content of the new note -->
+	if (stickyContent) {
+		 <!-- get the content textarea element and set its value -->
+		newstickynote.find("textarea.note-stickycontent").val(stickyContent);
+    }
+$(".stickydraggable").draggable();
+}
+<!-- to save notes to local storage-->
+function savestickynote(type){
+ stickyarray = [];
+stickynote.find("li.stickydraggable").each(function(i,e){
+var stickyTitle=$(e).find("input.note-stickytitle");
+var stickyContent=$(e).find("textarea.note-stickycontent");
+stickyarray.push({Index:i,Title:stickyTitle.val() , Content:stickyContent.val() });
+});
+<!-- convert to JSON format -->
+var Jsonstring=JSON.stringify(stickyarray);
+<!-- save to local storage -->
+localStorage.setItem("stickynote",Jsonstring);
+<!-- disable fields after adding it to local storage -->
+$(".note-stickytitle").attr("disabled","disabled");
+$(".note-stickycontent").attr("disabled","disabled");
+if(type=="save"){
+alert("content saved");
+}
+}
+function loadstickynote()
+{
+<!-- this will load the sticky notes stored in local storage -->
+var storedstickynote = localStorage.getItem("stickynote");
+if(storedstickynote)
+{
+<!-- this will store JSON back to an array -->
+stickyarray=JSON.parse(storedstickynote);
+var countsticky= stickyarray.length;
+var i;
+for(i=0;i<countsticky;i++)
+{
+var storedstickynote=stickyarray[i];
+addnewstickynote(storedstickynote.Title, storedstickynote.Content);
+}
+}
+}
+function editsticky(stickyele){
+var id1=stickyele.id;
+<!-- id value of input and textarea field -->
+var titleIdName="#stickytitleid"+id1;
+var contentIdName="#stickycontentid"+id1;
+$(titleIdName).removeAttr("disabled");
+$(contentIdName).removeAttr("disabled");
+}
+</script>
+</head>
+<body>
+<div class="stickyheader">Sticky Notes</b></div>
+<div id="addnewcontainer">
+<img src="image/newstickynote.png" id="addnewnote" class="commonmargin" alt="adding new sticky note" onclick="addnewstickynote()"/>
+<img src="image/savenote.png" alt="save note" class="commonmargin" onclick="savestickynote('save')"/>
+</div>
+<div id="stickynotescontainer">
+<ul id="stickynotes"/>
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+.stickycolour {
+	background: #f5f184;
+}
+
+.note-stickytitle {
+	font-size: 140%;
+	font-weight: bold;
+	height: 30px;
+	width: 70%;
+}
+
+.note-stickycontent {
+	font-size:120%;
+	height: 100px;
+	width: 95%;
+}
+ul, li {
+	list-style: none;
+	cursor:move;
+}
+
+ul {
+	overflow: hidden;
+	padding: 15px;
+	height:inherit;
+	size:cover;
+}
+
+ul li {
+	margin: 15px;
+	float: left;
+	position: relative;
+	
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+
+
+body {	
+	font-size: 100%;
+	height:98%;
+	width:100%;
+	position:absolute;
+    background: url('../image/backgroundimage.jpg') no-repeat center fixed;
+	background-size:cover;
+	
+
+}
+
+.inputcommon{
+font-family: cursive,'Chewy', arial, sans-serif;
+	background: rgba(0, 0, 0, 0); /* transparent background */
+	resize: none;
+	border-style: none;	
+	margin:7px !important;
+	color:black;
+}
+.inputscontainer{
+	
+	text-decoration: none;
+	color: #000;
+	background: #ffc;
+	display: block;
+	height: 180px;
+	width: 150px;
+	padding: 10px;
+	border-style: solid;
+}
+.commonmargin{
+	margin:5px;
+}
+#stickynotescontainer
+{
+	height:90%;
+}
+.stickyheader{
+	color:black;
+	font-size:40px;
+	text-align:center;
+	padding:11px;
+	font-family:cursive;
+}
+ul li div:hover, ul li div:focus {   
+  box-shadow:10px 10px 7px #000000;  
+  position:relative;  
+  z-index:5;   
+}
